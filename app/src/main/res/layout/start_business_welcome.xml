@@ -17,4 +17,6 @@
         android:id="@+id/continueButton1"
         android:layout_gravity="center_horizontal|bottom"
         android:onClick="continueClick"/>
+
+    <include layout="@layout/drawer_layout"/>
 </FrameLayout>
