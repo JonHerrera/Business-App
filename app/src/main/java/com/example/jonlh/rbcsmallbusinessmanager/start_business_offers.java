@@ -1,8 +1,10 @@
 package com.example.jonlh.rbcsmallbusinessmanager;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
 import android.widget.TextView;
 
 public class start_business_offers extends AppCompatActivity {
@@ -14,7 +16,7 @@ public class start_business_offers extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_business_offers);
+        setContentView(R.layout.start_business_offers);
 
         //the following grabs the industry option that the user has selected from the intent of the last activity
         Bundle extras = getIntent().getExtras();
@@ -40,6 +42,10 @@ public class start_business_offers extends AppCompatActivity {
                 break;
             default:
         }
+    }
 
+    public void continueClick(View view) {
+        Intent i = new Intent (this, start_business_appointment.class);
+        startActivity(i);
     }
 }
