@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--the following array is for testing purposes only. The app should connect to an online database-->
+    <string-array name="industry_array">
+        <item>Select an industry</item>
+        <item>Agriculture</item>
+        <item>Information Technology</item>
+        <item>Retail</item>
+    </string-array>
+
+    <string-array name="industry_null"></string-array>
+
+    <string-array name="industry_Agriculture">
+        <item>Agriculture</item>
+        <item>Revenue $10000</item>
+        <item> Expenses $8000</item>
+    </string-array>
+
+    <string-array name="industry_Information_Technology">
+        <item>IT</item>
+        <item>Revenue $15000</item>
+        <item> Expenses $9000</item>
+    </string-array>
+
+    <string-array name="industry_Retail">
+        <item>Retail</item>
+        <item>Revenue $9000</item>
+        <item>Expenses $5000</item>
+        <item>Employees 95</item>
+        <item>Turnover Rate 3 months</item>
+        <item>Retail</item>
+        <item>Revenue $9000</item>
+        <item>Expenses $5000</item>
+        <item>Employees 95</item>
+        <item>Turnover Rate 3 months</item>
+        <item>Retail</item>
+        <item>Revenue $9000</item>
+        <item>Expenses $5000</item>
+        <item>Employees 95</item>
+        <item>Turnover Rate 3 months</item>
+    </string-array>
+
+    <string name="industry_Agriculture_details">
+        You have selected Agriculture. \n
+        Vous avez choisi l\'agriculture. \n
+        You have selected Agriculture. \n
+        Vous avez choisi l\'agriculture. \n
+        You have selected Agriculture. \n
+        Vous avez choisi l\'agriculture. \n
+        You have selected Agriculture. \n
+        Vous avez choisi l\'agriculture. \n
+        You have selected Agriculture. \n
+        Vous avez choisi l\'agriculture. \n
+    </string>
+
+    <string name="industry_IT_details">
+        You have selected IT. \n
+        Vous avez choisi l\'information de technologie. \n
+        You have selected IT. \n
+        Vous avez choisi l\'information de technologie. \n
+        You have selected IT. \n
+        Vous avez choisi l\'information de technologie. \n
+        You have selected IT. \n
+        Vous avez choisi l\'information de technologie. \n
+        You have selected IT. \n
+        Vous avez choisi l\'information de technologie.\n
+    </string>
+
+    <string name="industry_Retail_details">
+        You have selected Retail. \n
+        Vous avez choisi de Retail. \n
+        You have selected Retail. \n
+        Vous avez choisi de Retail. \n
+        You have selected Retail. \n
+        Vous avez choisi de Retail. \n
+        You have selected Retail. \n
+        Vous avez choisi de Retail. \n
+    </string>
+</resources>
