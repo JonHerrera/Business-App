@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\jonlh\Documents\GitHub\RBCSmallBusinessManager\app\libs\jtds-1.3.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="1fc4d17efa80dc375767b0c1006584175212e9dc">
+        <dex dex="C:\Users\jonlh\Documents\GitHub\RBCSmallBusinessManager\app\build\intermediates\transforms\dex\debug\folders\1000\2\jtds-1.3.1_d6767a82a9c199e3ed55a6979cf5955c80926689\classes.dex" />
+    </item>
+
+</items>

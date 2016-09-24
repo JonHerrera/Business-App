@@ -3,6 +3,7 @@ package com.example.jonlh.rbcsmallbusinessmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -12,9 +13,20 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class start_business_industry extends MainActivity
         implements OnItemSelectedListener {
             //the implementation is needed for the Adapter on the Spinner when an item is selected
+
+    DBConnection dbConnection;
+    Connection connection;
+    PreparedStatement stmt;
+    ResultSet rs;
 
     private TextView industryTextView;
     private ListView industryDetailsListView;
@@ -58,14 +70,33 @@ public class start_business_industry extends MainActivity
         Spinner industrySpinner = (Spinner) findViewById(R.id.industrySpinner);
         continueButton2 = (Button) findViewById(R.id.continueButton);
 
-        //TODO: DATABASE - the selection array should be called from the database as opposed to a hardcoded one (possibly use the primary keys)
-        ArrayAdapter<CharSequence> spinnerAdapter = //creating the array adapter for the spinner
-                ArrayAdapter.createFromResource(this, R.array.industry_array, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //spinner selection display
-        industrySpinner.setAdapter(spinnerAdapter); //connecting spinner to adapter
-
         industrySpinner.setOnItemSelectedListener(this); //attaching the item selected method to the Spinner
         initializeText(); //filling in the TextViews
+
+        dbConnection = new DBConnection();
+        connection = dbConnection.CONN();   //initialize DB connection
+        if (connection == null){
+            System.out.println("Error in connection");
+        }
+        else {
+            System.out.println("DB connection Success");
+            try {
+                connection = dbConnection.CONN();
+                stmt = connection.prepareStatement("Select BusCatName from Business_Category");
+                rs = stmt.executeQuery();
+                ArrayList<String> data = new ArrayList<String>();
+                while (rs.next()) {
+                    String id = rs.getString("BusCatName");
+                    data.add(id);
+                }
+                String[] array = data.toArray(new String[0]);
+                ArrayAdapter NoCoreAdapter = new ArrayAdapter(this,
+                        android.R.layout.simple_list_item_1, data);
+                industrySpinner.setAdapter(NoCoreAdapter);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void initializeText() {
