@@ -19,14 +19,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static android.R.id.list;
+
 public class start_business_industry extends MainActivity
-        implements OnItemSelectedListener {
-            //the implementation is needed for the Adapter on the Spinner when an item is selected
+        implements OnItemSelectedListener{
 
     DBConnection dbConnection;
     Connection connection;
-    PreparedStatement stmt;
-    ResultSet rs;
+    PreparedStatement stmt1,stmt2;
+    ResultSet rs1,rs2;
+    Spinner industrySpinner;
 
     private TextView industryTextView;
     private ListView industryDetailsListView;
@@ -34,28 +36,27 @@ public class start_business_industry extends MainActivity
     public int industryName;
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        //a method created for when items are selected
-        //this method will get the position in the array of the item selected to be used
+        String Cat_Name = industrySpinner.getSelectedItem().toString();
         industryName = (int) parent.getItemIdAtPosition(pos); //casting the position that was retrieved as a long into an int
-        switch (industryName) { //based on what position the item is in the array at, we can call the corresponding data from another array
-            //TODO: DATABASE - set it so that on Spinner Item Click, get the corresponding information and display it in the ListView
-            case 0:
-                industryDetailsListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.industry_null)));
-                break;
-            case 1:
-                industryDetailsListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.industry_Agriculture)));
-                break;
-            case 2:
-                industryDetailsListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.industry_Information_Technology)));
-                break;
-            case 3:
-                industryDetailsListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.industry_Retail)));
-                break;
-            default:
+        ArrayList<String> data2 = new ArrayList<String>();
+        try {
+            connection = dbConnection.CONN();
+            stmt2 = connection.prepareStatement("SELECT X FROM (SELECT BusCatID,BusCatName,BusCatDesc,BusCatExmpl,RqrdInvst,MinPeople FROM Business_Category where BusCatName = '" + Cat_Name + "' ) AS cp UNPIVOT ( X FOR Xs IN (BusCatDesc,BusCatExmpl,RqrdInvst,MinPeople)) AS up;");
+            rs2 = stmt2.executeQuery();
+            while (rs2.next()) {
+                String id2 = rs2.getString("X");
+                data2.add(id2);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        //so the user cannot proceed to the next page without selecting an industry
-        if(industryName == 0) { continueButton2.setEnabled(false); }
-        else { continueButton2.setEnabled(true); }
+
+        for (int i = 0; i < 100; i++) {
+            if(industryName == i){
+                industryDetailsListView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data2));
+            }
+
+        }
     }
     public void onNothingSelected(AdapterView<?> parent) {    }
 
@@ -67,12 +68,17 @@ public class start_business_industry extends MainActivity
         //calling the components from the view to be used
         industryTextView = (TextView) findViewById(R.id.industryTextView);
         industryDetailsListView = (ListView) findViewById(R.id.industryDetailsListView);
-        Spinner industrySpinner = (Spinner) findViewById(R.id.industrySpinner);
+        industrySpinner = (Spinner) findViewById(R.id.industrySpinner);
         continueButton2 = (Button) findViewById(R.id.continueButton);
 
-        industrySpinner.setOnItemSelectedListener(this); //attaching the item selected method to the Spinner
-        initializeText(); //filling in the TextViews
+        //TODO: DATABASE - the selection array should be called from the database as opposed to a hardcoded one (possibly use the primary keys)
+//        ArrayAdapter<CharSequence> spinnerAdapter = //creating the array adapter for the spinner
+//                ArrayAdapter.createFromResource(this, R.array.industry_array, android.R.layout.simple_spinner_item);
+//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); //spinner selection display
+//        industrySpinner.setAdapter(spinnerAdapter); //connecting spinner to adapter
 
+        industrySpinner.setOnItemSelectedListener(this); //attaching the item selected method to the Spinner
+        initializeText(); //filling in the TextViews dbConnection = new DBConnection();
         dbConnection = new DBConnection();
         connection = dbConnection.CONN();   //initialize DB connection
         if (connection == null){
@@ -82,11 +88,11 @@ public class start_business_industry extends MainActivity
             System.out.println("DB connection Success");
             try {
                 connection = dbConnection.CONN();
-                stmt = connection.prepareStatement("Select BusCatName from Business_Category");
-                rs = stmt.executeQuery();
+                stmt1 = connection.prepareStatement("Select BusCatName from Business_Category");
+                rs1 = stmt1.executeQuery();
                 ArrayList<String> data = new ArrayList<String>();
-                while (rs.next()) {
-                    String id = rs.getString("BusCatName");
+                while (rs1.next()) {
+                    String id = rs1.getString("BusCatName");
                     data.add(id);
                 }
                 String[] array = data.toArray(new String[0]);
@@ -106,7 +112,7 @@ public class start_business_industry extends MainActivity
     public void continueClick(View view) {
         Intent i = new Intent(this, start_business_offers.class);
         i.putExtra("industryName", industryName); //upon clicking the continue button, the industry you have selected
-            //will be passed to the next activity in the form of an int, to be used to call more data
+        //will be passed to the next activity in the form of an int, to be used to call more data
         startActivity(i);
     }
 }
