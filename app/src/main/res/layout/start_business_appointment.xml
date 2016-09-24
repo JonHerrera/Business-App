@@ -13,6 +13,4 @@
     android:layout_height="0dp"
     tools:context="com.example.jonlh.rbcsmallbusinessmanager.start_business_appointment"
     android:layout_weight=".5"/>
-
-
 </LinearLayout>
